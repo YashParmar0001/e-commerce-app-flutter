@@ -1,20 +1,22 @@
 import 'dart:async';
+import 'dart:developer' as dev;
 
 import 'package:bloc/bloc.dart';
 import 'package:ecommerce_app/repositories/auth/auth_repository.dart';
 import 'package:equatable/equatable.dart';
 
-import 'dart:developer' as dev;
-
 part 'auth_event.dart';
+
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  AuthBloc({required AuthRepository authRepository}) : _authRepository = authRepository, super(Uninitialized()) {
+  AuthBloc({required AuthRepository authRepository})
+      : _authRepository = authRepository,
+        super(Uninitialized()) {
     on<AppStarted>(_onAppStarted);
     on<LoggedIn>(_onLoggedIn);
     on<LoggedOut>(_onLoggedOut);
-// 
+//
   }
 
   final AuthRepository _authRepository;
@@ -25,10 +27,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       if (isSignedIn) {
         final email = await _authRepository.getUser();
         emit(Authenticated(email: email ?? 'Error'));
-      }else {
+      } else {
         emit(UnAuthenticated());
       }
-    }catch (_) {
+    } catch (_) {
       emit(UnAuthenticated());
     }
   }

@@ -1,6 +1,7 @@
 import 'package:ecommerce_app/blocs/log_in/log_in_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../blocs/auth/auth_bloc.dart';
 
@@ -110,12 +111,11 @@ class _LogInScreenState extends State<LogInScreen> {
                     cursorColor: Colors.black,
                     controller: emailController,
                     decoration: const InputDecoration(
-                      focusedBorder: UnderlineInputBorder(),
-                      icon: Icon(Icons.email),
-                      labelText: 'Email',
-                      labelStyle: TextStyle(color: Colors.black),
-                      iconColor: Colors.black
-                    ),
+                        focusedBorder: UnderlineInputBorder(),
+                        icon: Icon(Icons.email),
+                        labelText: 'Email',
+                        labelStyle: TextStyle(color: Colors.black),
+                        iconColor: Colors.black),
                     autovalidateMode: AutovalidateMode.always,
                     autocorrect: false,
                     validator: (_) {
@@ -126,12 +126,11 @@ class _LogInScreenState extends State<LogInScreen> {
                     cursorColor: Colors.black,
                     controller: passwordController,
                     decoration: const InputDecoration(
-                      icon: Icon(Icons.lock),
-                      labelText: 'Password',
-                      focusedBorder: UnderlineInputBorder(),
-                      labelStyle: TextStyle(color: Colors.black),
-                      iconColor: Colors.black
-                    ),
+                        icon: Icon(Icons.lock),
+                        labelText: 'Password',
+                        focusedBorder: UnderlineInputBorder(),
+                        labelStyle: TextStyle(color: Colors.black),
+                        iconColor: Colors.black),
                     obscureText: true,
                     autovalidateMode: AutovalidateMode.always,
                     autocorrect: false,
@@ -140,20 +139,44 @@ class _LogInScreenState extends State<LogInScreen> {
                     },
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 30,
                   ),
                   ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.black),
-                      onPressed: _onFormSubmitted,
-                      child: const Text('Log In')),
+                    style:
+                        ElevatedButton.styleFrom(backgroundColor: Colors.black),
+                    onPressed: _onFormSubmitted,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Text('Log In'),
+                      ],
+                    ),
+                  ),
+                  ElevatedButton(
+                    style:
+                        ElevatedButton.styleFrom(backgroundColor: Colors.black),
+                    onPressed: _onGooglePressed,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        FaIcon(
+                          FontAwesomeIcons.google,
+                        ),
+                        SizedBox(width: 10),
+                        Text('Log In with Google')
+                      ],
+                    ),
+                  ),
                   TextButton(
                       style: TextButton.styleFrom(
                           textStyle: const TextStyle(color: Colors.black)),
                       onPressed: () {
                         Navigator.pushNamed(context, '/register');
                       },
-                      child: const Text('Create an Account', style: TextStyle(color: Colors.black),)),
+                      child: const Text(
+                        'Create an Account',
+                        style: TextStyle(color: Colors.black),
+                      )),
                 ],
               ),
             );
@@ -174,6 +197,10 @@ class _LogInScreenState extends State<LogInScreen> {
   void _onFormSubmitted() {
     _logInBloc.add(LogInWithCredentialsPressed(
         email: emailController.text, password: passwordController.text));
+  }
+
+  void _onGooglePressed() {
+    _logInBloc.add(LogInWithGooglePressed());
   }
 
   @override

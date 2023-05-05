@@ -1,11 +1,9 @@
-import 'dart:async';
+import 'dart:developer' as dev;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../blocs/auth/auth_bloc.dart';
-
-import 'dart:developer' as dev;
 
 class AuthScreen extends StatelessWidget {
   const AuthScreen({Key? key}) : super(key: key);
@@ -30,19 +28,13 @@ class AuthScreen extends StatelessWidget {
         } else if (state is Authenticated) {
           dev.log('Authenticated state in AuthScreen, Going home screen');
           Navigator.pushReplacementNamed(context, '/home');
-        }else {
+        } else {
           dev.log('Unknown state', name: 'AuthState');
         }
       },
-      child: Scaffold(
+      child: const Scaffold(
         body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              CircularProgressIndicator(),
-              Text('Please wait while We are logging you in...'),
-            ],
-          ),
+          child: CircularProgressIndicator(),
         ),
       ),
     );

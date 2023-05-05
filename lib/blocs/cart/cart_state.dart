@@ -7,9 +7,7 @@ abstract class CartState extends Equatable {
   List<Object> get props => [];
 }
 
-class CartLoading extends CartState {
-
-}
+class CartLoading extends CartState {}
 
 class CartLoaded extends CartState {
   const CartLoaded({this.cart = const Cart()});

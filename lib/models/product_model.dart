@@ -45,6 +45,16 @@ class Product extends Equatable {
   List<Object?> get props =>
       [name, category, imageUrl, price, isRecommended, isPopular];
 
+  static String demoProductDescription = 'Introducing our latest product, '
+      'designed to bring you convenience and satisfaction with every use. '
+      'Our product is crafted with the highest quality materials and is built to last, '
+      'ensuring that you can enjoy its benefits for years to come.';
+
+  static String demoDeliveryInformation =
+      'We offer fast and reliable delivery for all our products, '
+      'ensuring that you receive your order as soon as possible. Our delivery options are flexible, '
+      'allowing you to choose the method that works best for you.';
+
   static List<Product> products = [
     Product(
       id: '0',

@@ -29,13 +29,17 @@ class ProductScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const SizedBox(height: 10,),
+            const SizedBox(
+              height: 10,
+            ),
             Image.network(
-                product.imageUrl,
+              product.imageUrl,
               width: MediaQuery.of(context).size.width - 20,
               height: 500,
             ),
-            const SizedBox(height: 10,),
+            const SizedBox(
+              height: 10,
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Stack(
@@ -77,9 +81,7 @@ class ProductScreen extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 20
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: ExpansionTile(
                 initiallyExpanded: true,
                 title: Text(
@@ -89,19 +91,15 @@ class ProductScreen extends StatelessWidget {
                 children: [
                   ListTile(
                     title: Text(
-                        'Softdrink lelo bhai log kaafi maja ayega pineme, Waise bhi '
-                            'itni garmi hai kuchh to pina hi padega isse achha softdrink pilo!!!',
+                      Product.demoProductDescription,
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
-
                   )
                 ],
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: 20
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: ExpansionTile(
                 initiallyExpanded: true,
                 title: Text(
@@ -111,11 +109,9 @@ class ProductScreen extends StatelessWidget {
                 children: [
                   ListTile(
                     title: Text(
-                      'Softdrink lelo bhai log kaafi maja ayega pineme, Waise bhi '
-                          'itni garmi hai kuchh to pina hi padega isse achha softdrink pilo!!!',
+                      Product.demoDeliveryInformation,
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
-
                   )
                 ],
               ),
@@ -131,15 +127,23 @@ class ProductScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               IconButton(
-                icon: Icon(Icons.share, color: Colors.white,),
+                icon: Icon(
+                  Icons.share,
+                  color: Colors.white,
+                ),
                 onPressed: () {},
               ),
               BlocBuilder<WishlistBloc, WishlistState>(
                 builder: (context, state) {
                   return IconButton(
-                    icon: Icon(Icons.favorite, color: Colors.white,),
+                    icon: Icon(
+                      Icons.favorite,
+                      color: Colors.white,
+                    ),
                     onPressed: () {
-                      context.read<WishlistBloc>().add(AddWishlistProduct(product));
+                      context
+                          .read<WishlistBloc>()
+                          .add(AddWishlistProduct(product));
                     },
                   );
                 },
@@ -147,7 +151,8 @@ class ProductScreen extends StatelessWidget {
               BlocBuilder<CartBloc, CartState>(
                 builder: (context, state) {
                   return ElevatedButton(
-                    style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
+                    style:
+                        ElevatedButton.styleFrom(backgroundColor: Colors.white),
                     onPressed: () {
                       context.read<CartBloc>().add(AddProduct(product));
                     },

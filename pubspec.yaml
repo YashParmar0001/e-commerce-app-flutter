@@ -45,6 +45,7 @@ dependencies:
   pay:
   hive:
   hive_flutter:
+  font_awesome_flutter:
 
 dev_dependencies:
   flutter_test:

@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:developer' as developer;
 
 import 'package:bloc/bloc.dart';
-import 'package:ecommerce_app/blocs/wishlist/wishlist_bloc.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../models/cart_model.dart';
@@ -27,8 +26,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     developer.log('Loading cart...', name: 'CartState');
     emit(CartLoading());
     try {
-      await Future<void>.delayed(Duration(seconds: 5));
-      emit(CartLoaded(cart: Cart(products: <Product>[])));
+      emit(const CartLoaded(cart: Cart(products: <Product>[])));
     } catch (_) {
       emit(CartError());
     }
@@ -48,23 +46,10 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   void _onRemoveProduct(
       RemoveProduct event, CartState state, Emitter<CartState> emit) {
     if (state is CartLoaded) {
-      print('Removing product from cart: ${event.product.name}');
       emit(CartLoaded(
           cart: Cart(
               products: List.from(state.cart.products)
                 ..remove(event.product))));
     }
-  }
-
-  @override
-  void onChange(Change<CartState> change) {
-    print(change);
-    super.onChange(change);
-  }
-
-  @override
-  void onTransition(Transition<CartEvent, CartState> transition) {
-    print(transition);
-    super.onTransition(transition);
   }
 }
