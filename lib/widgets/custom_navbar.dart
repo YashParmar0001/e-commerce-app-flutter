@@ -16,7 +16,7 @@ class CustomNavBar extends StatelessWidget {
             IconButton(
               icon: Icon(Icons.home, color: Colors.white),
               onPressed: () {
-                Navigator.pushNamed(context, '/');
+
               },
             ),
             IconButton(
@@ -28,7 +28,7 @@ class CustomNavBar extends StatelessWidget {
             IconButton(
               icon: Icon(Icons.person, color: Colors.white,),
               onPressed: () {
-                Navigator.pushNamed(context, '/user');
+                Navigator.pushNamed(context, '/profile');
               },
             )
           ],

@@ -1,39 +1,57 @@
 import 'package:firebase_auth/firebase_auth.dart' as auth;
+import 'package:google_sign_in/google_sign_in.dart';
 
-import 'base_auth_repository.dart';
+import 'dart:developer' as developer;
 
-class AuthRepository extends BaseAuthRepository {
-  AuthRepository({auth.FirebaseAuth? firebaseAuth})
-      : _firebaseAuth = firebaseAuth ?? auth.FirebaseAuth.instance;
+class AuthRepository {
+  AuthRepository({auth.FirebaseAuth? firebaseAuth, GoogleSignIn? googleSignIn})
+      : _firebaseAuth = firebaseAuth ?? auth.FirebaseAuth.instance,
+        _googleSignIn = googleSignIn ?? GoogleSignIn();
 
   final auth.FirebaseAuth _firebaseAuth;
+  final GoogleSignIn _googleSignIn;
 
-  @override
-  Future<auth.User?> signUp(
-      {required String email, required String password}) async {
-    try {
-      final credential = await _firebaseAuth.createUserWithEmailAndPassword(
-          email: email, password: password);
-
-      return credential.user;
-    } catch (_) {}
-    return null;
+  Future<auth.User?> signInWithGoogle() async {
+    final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+    final GoogleSignInAuthentication? googleAuth =
+    await googleUser?.authentication;
+    final auth.AuthCredential credential = auth.GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+    developer.log('Got details from google', name: 'Google');
+    await _firebaseAuth.signInWithCredential(credential);
+    return _firebaseAuth.currentUser;
   }
 
-  @override
-  Future<void> logInWithEmailAndPassword(
-      {required String email, required String password}) async {
-    try {
-      await _firebaseAuth.signInWithEmailAndPassword(
-          email: email, password: password);
-    } catch (_) {}
+  Future<void> signInWithCredentials(String email, String password) {
+    return _firebaseAuth.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
   }
 
-  @override
+  Future<auth.UserCredential> signUp(
+      {required String email, required String password}) async {
+    return await _firebaseAuth.createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+  }
+
   Future<void> signOut() async {
-    await _firebaseAuth.signOut();
+    Future.wait([
+      _firebaseAuth.signOut(),
+      _googleSignIn.signOut(),
+    ]);
   }
 
-  @override
-  Stream<auth.User?> get user => _firebaseAuth.userChanges();
+  Future<bool> isSignedIn() async {
+    final currentUser = _firebaseAuth.currentUser;
+    return currentUser != null;
+  }
+
+  Future<String?> getUser() async {
+    return (_firebaseAuth.currentUser)?.email;
+  }
 }
